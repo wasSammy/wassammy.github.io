@@ -121,6 +121,9 @@ class Circle {
 }
 
 function init() {
+    if (/Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|BlackBerry/i.test(navigator.userAgent)) {
+        return;
+    }
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("touchmove", onTouchMove);
 
