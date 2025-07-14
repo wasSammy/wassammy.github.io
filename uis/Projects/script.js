@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h6 class="card-subtitle">${statusBadge}</h6>
                         <p class="card-text">${project.description}</p>
                         <div class="tags">
-                            // ${tagElements}
+                            ${tagElements}
                         </div>
                     </div>
                     <div class="card-footer">
