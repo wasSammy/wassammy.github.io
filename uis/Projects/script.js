@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         projects.forEach((project, index) => {
             const delay = index * 0.1;
             const element = document.createElement('div');
-            element.className = 'col-md-6 col-lg-4';
+            element.className = 'col-12 col-md-6 col-lg-4';
             element.style.animationDelay = `${delay}s`;
             element.style.paddingBottom = '20px';
             
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <h6 class="card-subtitle">${statusBadge}</h6>
                         <p class="card-text">${project.description}</p>
                         <div class="tags">
-                            ${tagElements}
+                            // ${tagElements}
                         </div>
                     </div>
                     <div class="card-footer">
