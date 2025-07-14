@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    cursor: none !important;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -424,18 +425,16 @@ body::before {
 
 body,
 html {
-    cursor: none;
-    user-select: none;
-
-    width: 100%;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    overflow: hidden;
-    background: var(--dark);
-    color: var(--light);
-    overflow-x: hidden;
-    position: relative;
+  user-select: none;
+  width: 100%;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background: var(--dark);
+  color: var(--light);
+  overflow-x: hidden;
+  position: relative;
 }
+
 .container {
   width: 100%;
   height: 100%;
@@ -684,4 +683,13 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+body.fade-out {
+    animation: fadeOutBody 0.6s forwards;
+}
+
+@keyframes fadeOutBody {
+    from { opacity: 1; }
+    to { opacity: 0.2; }
 }

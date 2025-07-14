@@ -1,7 +1,7 @@
 const cursor = document.getElementById("cursor");
-const amount = 20;
+const amount = 10;
 const sineDots = Math.floor(amount * 0.3);
-const width = 26;
+const width = 5;
 const idleTimeout = 150;
 let lastFrame = 0;
 let mousePosition = {x: 0, y: 0};
@@ -76,7 +76,7 @@ class Dot {
         this.anglespeed = 0.05;
         this.x = 0;
         this.y = 0;
-        this.scale = 1 - 0.05 * index;
+        this.scale = .6 - 0.05 * index;
         this.range = width / 2 - width / 2 * this.scale + 2;
         this.limit = width * 0.75 * this.scale;
         this.element = document.createElement("span");
@@ -123,17 +123,31 @@ class Circle {
 function init() {
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("touchmove", onTouchMove);
-    // hoverButton = new HoverButton("button");
-    // eslint-disable-next-line no-new
-    // new Circle("circle-content");
+
+    window.addEventListener('focus', onWindowFocus);
+    window.addEventListener('blur', animateInactive);
+
+    const body = document.body;
+    body.addEventListener("mouseenter", onWindowFocus);
+    window.addEventListener("mouseenter", onWindowFocus);
+    window.addEventListener('mouseout', (e) => {
+        if (!e.relatedTarget && !e.toElement) {
+            animateInactive(); // real exit from window
+        }
+    });
+
+    const buttons = document.querySelectorAll('#hoverButton');
+    buttons.forEach(btn => {
+        btn.addEventListener("mouseenter", animateDotsOnHover);
+        btn.addEventListener("mouseleave", resetDotsAfterHover);
+    });
+
+    // if moves out of the window, reset idle timer
+
     lastFrame += new Date();
     buildDots();
     render();
 }
-
-/*function limit(value, min, max) {
-    return Math.min(Math.max(min, value), max);
-}*/
 
 function startIdleTimer() {
     timeoutID = setTimeout(goInactive, idleTimeout);
@@ -150,6 +164,50 @@ function goInactive() {
     for (let dot of dots) {
         dot.lock();
     }
+}
+
+function animateDotsOnHover() {
+    console.log("Hovering over button, animating dots");
+    dots.forEach((dot, i) => {
+        // Add scale, rotation, and glow for a modern effect
+        TweenMax.to(dot.element, 0.5, {
+            scale: dot.scale * 1.5,
+            opacity: 1,
+            rotation: 360,
+            delay: i * 0.03,
+            ease: Power2.easeOut
+        });
+    });
+}
+
+function resetDotsAfterHover() {
+    console.log("Hover ended, resetting dots");
+    dots.forEach((dot, i) => {
+        // Return to default scale, color, and opacity
+        TweenMax.to(dot.element, 0.5, {
+            scale: dot.scale,
+            opacity: 1,
+            delay: i * 0.03,
+            ease: Power2.easeOut,
+        });
+    });
+}
+
+function animateInactive() {
+    dots.forEach(dot => {
+        TweenMax.to(dot.element, 0.1, { scale: 0.1, opacity: 0, ease: Power2.easeOut });
+    });
+}
+
+function animateActive() {
+    dots.forEach(dot => {
+        TweenMax.to(dot.element, .5, { scale: dot.scale, opacity: 1, ease: Power2.easeOut });
+    });
+}
+
+function onWindowFocus() {
+    idle = false;
+    animateActive();
 }
 
 function buildDots() {
