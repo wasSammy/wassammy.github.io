@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "LICENSE": true,
+        "README.md": true,
+        ".vscode": true
+    }
+}
